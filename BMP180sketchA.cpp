@@ -17,7 +17,7 @@
 SFE_BMP180 bmp180; //create object
 
 //SoftwareSerial hc12(2,3); //RX, TX
-
+//test
 
 //decide if measuring altitude relative to sea level or relative to ground, (sea level easier imo)
 float Po = 1013.0 //altitude relative to sea level
