@@ -16,7 +16,7 @@
 
 SFE_BMP180 bmp180; //create object
 
-//SoftwareSerial hc12(2,3); //RX, TX
+SoftwareSerial hc12(2,3); //RX, TX
 //test
 
 //decide if measuring altitude relative to sea level or relative to ground, (sea level easier imo)
@@ -42,12 +42,12 @@ void setup() {
 
 
 void sendHeader(){ //header of hc12 data
-  hc12.print("TEMP | PRESSURE | ALTITUDE");
+  hc12.print("TEMP | PRESSURE | ALTITUDE"); //prints data to the transmit pin of the SoftwareSerial object
 }
 
 void sendData(double T, double P, double alt){ //fxn to send data from bmp to hc12
   sendHeader();  
-  hc12.print(T + "  " + P + "  " + alt);
+  hc12.print(T + "  " + P + "  " + alt); //prints data to the transmit pin of the SoftwareSerial object
   hc12.println();
 }
 
@@ -60,7 +60,7 @@ void loop() {
   status = bmp180.startTemperature(); //according to flowchart on order bmp reads data, on success, returns non zero value
 
 if (status != 0) {
-    delay(1000);
+    delay(3000);
     status = bmp180.getTemperature(T); //wait 4.5 ms, function recieve value, store in T
 
     if (status != 0) {
