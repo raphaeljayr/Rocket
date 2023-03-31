@@ -25,6 +25,9 @@ float Po = 1013.0 //altitude relative to sea level
 void setup() {
   // put your setup code here, to run once:
   Serial.begin(9600); //pass value 9600(9600 binary bits/second, aka baud rate) to speed parameter - starts serial communication so arduino can send commands thru USB connection
+  
+  hc12.begin(9600);
+
   bool success = bmp180.begin(); //.begin retrieve bidirectional iterator aka pointer to first element of data structure
 
   if (success) {
@@ -35,7 +38,17 @@ void setup() {
       while (1) {}
     }
   }
+}
 
+
+void sendHeader(){ //header of hc12 data
+  hc12.print("TEMP | PRESSURE | ALTITUDE");
+}
+
+void sendData(double T, double P, double alt){ //fxn to send data from bmp to hc12
+  sendHeader();  
+  hc12.print(T + "  " + P + "  " + alt);
+  hc12.println();
 }
 
 void loop() {
@@ -71,6 +84,8 @@ if (status != 0) {
             Serial.print("Temperature: ");
             Serial.print(T);
             Serial.println(" C");
+
+            sendData(T, P, alt); //call function to send data to hc12
         }
       }
     }
